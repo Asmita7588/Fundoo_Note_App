@@ -1,0 +1,9 @@
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\bin\Debug\netcoreapp3.1\CommonLayer.deps.json
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\bin\Debug\netcoreapp3.1\CommonLayer.dll
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\bin\Debug\netcoreapp3.1\CommonLayer.pdb
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.AssemblyInfoInputs.cache
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.AssemblyInfo.cs
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.csproj.CoreCompileInputs.cache
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.dll
+C:\Users\asmita1\source\repos\Bridgelabz_practice_program\FundooNoteApp\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.pdb
