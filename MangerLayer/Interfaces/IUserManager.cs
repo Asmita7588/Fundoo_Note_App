@@ -9,5 +9,6 @@ namespace MangerLayer.Interfaces
     public interface IUserManager
     {
         public UserEntity Register(RegisterModel model);
+        public bool CheckMail(string mail);
     }
 }

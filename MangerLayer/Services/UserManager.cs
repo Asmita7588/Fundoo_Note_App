@@ -22,5 +22,9 @@ namespace MangerLayer.Services
 
             return userRepo.Register(model);
         }
+        public bool CheckMail(string mail)
+        {
+            return userRepo.CheckMail(mail);
+        }
     }
 }

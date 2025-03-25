@@ -23,12 +23,22 @@ namespace FundooNoteApp.Controllers
 
         public IActionResult Register(RegisterModel model) {
 
-            var result = userManager.Register(model);
-            if (result != null) {
-                return Ok(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
+            var check = userManager.CheckMail(model.Email);
+            if (check)
+            {
+                return BadRequest(new ResponseModel<UserEntity> { Success = true, Message = "email already Exists" });
 
             }
-            return BadRequest(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
+            else
+            {
+                var result = userManager.Register(model);
+                if (result != null)
+                {
+                    return Ok(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
+
+                }
+                return BadRequest(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
+            }
         }
     }
 }
