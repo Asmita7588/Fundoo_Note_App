@@ -65,20 +65,16 @@ namespace RepositoryLayer.Services
             return true;
         }
 
-        public UserEntity LoginUser(LoginModel loginModel) {
+        public string LoginUser(LoginModel loginModel) {
 
-            var user = this.context.Users.FirstOrDefault(x => x.Email == loginModel.Email);
+            var checkUser = this.context.Users.FirstOrDefault(q => q.Email == loginModel.Email &&  q.Password == EncodePasswordToBase6( loginModel.Password));
             
 
 
-            if ( user != null) {
+            if ( checkUser != null) {
 
-               //var isUsersPasswordMatch = BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password); //by bcrpty way
-                var isUsersPasswordMatch = EncodePasswordToBase6(loginModel.Password); // 2nd encrypt way
-                if (isUsersPasswordMatch != null) {
-                    return user;
-                }
-               
+                var token = GenerateToken(checkUser.Email, checkUser.UserId);
+                return token;
             }
             return null;
         }
@@ -95,7 +91,7 @@ namespace RepositoryLayer.Services
             var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
                 configuration["Jwt:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddHours(2),
                 signingCredentials: credentials);
 
 

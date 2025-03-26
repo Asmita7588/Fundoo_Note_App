@@ -43,13 +43,16 @@ namespace FundooNoteApp.Controllers
         [HttpPost]
         [Route("Login")]
 
-        public IActionResult LoginUser([FromBody] LoginModel loginModel) { 
-             
+        public IActionResult LoginUser(LoginModel loginModel)
+        {
+
             var user = userManager.LoginUser(loginModel);
-            if (user != null) {
-                return Ok(new ResponseModel<UserEntity> { Success = true, Message = "login successfully" , Data = user });
+            if (user != null)
+            {
+                return Ok(new ResponseModel<string> { Success = true, Message = "login successfully", Data = user });
             }
-            return BadRequest(new ResponseModel<UserEntity> { Success = false, Message = "login failed", Data = user });
+            return BadRequest(new ResponseModel<string> { Success = false, Message = "login failed", Data = user });
+
         }
     }
 }

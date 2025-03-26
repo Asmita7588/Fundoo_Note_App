@@ -27,7 +27,7 @@ namespace MangerLayer.Services
             return userRepo.CheckMail(mail);
         }
 
-        public UserEntity LoginUser(LoginModel loginModel)
+        public string LoginUser(LoginModel loginModel)
         {
             return userRepo.LoginUser(loginModel);
         }
