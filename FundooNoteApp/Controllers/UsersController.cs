@@ -37,8 +37,19 @@ namespace FundooNoteApp.Controllers
                     return Ok(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
 
                 }
-                return BadRequest(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
+                return BadRequest(new ResponseModel<UserEntity> { Success = false, Message = "Register failed", Data = result });
             }
+        }
+        [HttpPost]
+        [Route("Login")]
+
+        public IActionResult LoginUser([FromBody] LoginModel loginModel) { 
+             
+            var user = userManager.LoginUser(loginModel);
+            if (user != null) {
+                return Ok(new ResponseModel<UserEntity> { Success = true, Message = "login successfully" , Data = user });
+            }
+            return BadRequest(new ResponseModel<UserEntity> { Success = false, Message = "login failed", Data = user });
         }
     }
 }
