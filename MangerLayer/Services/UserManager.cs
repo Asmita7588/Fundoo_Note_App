@@ -31,5 +31,15 @@ namespace MangerLayer.Services
         {
             return userRepo.LoginUser(loginModel);
         }
+
+        public ForgotPasswordModel ForgotPassword(string Email) { 
+
+            return userRepo.ForgotPassword(Email);
+        }
+
+        public bool ResetPassword(string Email, ResetPasswordModel resetPasswordModel) { 
+
+           return userRepo.ResetPassword(Email, resetPasswordModel);
+        }
     }
 }

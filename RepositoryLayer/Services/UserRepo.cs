@@ -13,6 +13,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace RepositoryLayer.Services
 {
@@ -27,7 +30,8 @@ namespace RepositoryLayer.Services
             this.configuration = configuration;
         }
 
-        public UserEntity Register(RegisterModel model) { 
+        public UserEntity Register(RegisterModel model)
+        {
             UserEntity user = new UserEntity();
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
@@ -56,22 +60,25 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public bool CheckMail(string mail) { 
+        public bool CheckMail(string mail)
+        {
             var result = this.context.Users.FirstOrDefault(x => x.Email == mail);
-            if(result == null)
+            if (result == null)
             {
                 return false;
             }
             return true;
         }
 
-        public string LoginUser(LoginModel loginModel) {
+        public string LoginUser(LoginModel loginModel)
+        {
 
-            var checkUser = this.context.Users.FirstOrDefault(q => q.Email == loginModel.Email &&  q.Password == EncodePasswordToBase6( loginModel.Password));
-            
+            var checkUser = this.context.Users.FirstOrDefault(q => q.Email == loginModel.Email && q.Password == EncodePasswordToBase6(loginModel.Password));
 
 
-            if ( checkUser != null) {
+
+            if (checkUser != null)
+            {
 
                 var token = GenerateToken(checkUser.Email, checkUser.UserId);
                 return token;
@@ -97,6 +104,33 @@ namespace RepositoryLayer.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 
+        }
+
+        public ForgotPasswordModel ForgotPassword(string Email)
+        {
+            UserEntity user = context.Users.ToList().Find(user => user.Email == Email);
+            ForgotPasswordModel forgotPassword = new ForgotPasswordModel();
+            forgotPassword.Email = user.Email;
+            forgotPassword.UserId = user.UserId;
+            forgotPassword.Token = GenerateToken(user.Email, user.UserId);
+            return forgotPassword;
+        }
+
+
+
+        public bool ResetPassword(string Email, ResetPasswordModel resetPasswordModel)
+        {
+           UserEntity user = context.Users.ToList().Find(user =>user.Email == Email);
+
+            if (CheckMail(user.Email))
+            {
+                user.Password = EncodePasswordToBase6(resetPasswordModel.ConfirmPassword);
+                context.SaveChanges();
+                return true;
+            }
+            else { 
+                return false;
+            }
         }
     }
 }
