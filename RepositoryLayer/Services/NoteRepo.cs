@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using CommonLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interfaces;
@@ -30,9 +32,10 @@ namespace RepositoryLayer.Services
             return noteEntity;
         }
 
-        public List<NoteEntity> GetAllNote() { 
+        public List<NoteEntity> GetAllNote() {
 
-            List<NoteEntity> notes = new List<NoteEntity>();
+            List<NoteEntity> userEntities = context.Notes.ToList();
+            return userEntities;
 
         }
     }

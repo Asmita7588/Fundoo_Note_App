@@ -10,6 +10,7 @@ namespace RepositoryLayer.Interfaces
     {
       
         public NoteEntity CreateNote(int UserId, NotesModel notesModel);
+        public List<NoteEntity> GetAllNote();
 
     }
 }

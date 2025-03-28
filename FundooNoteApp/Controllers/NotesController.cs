@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using CommonLayer.Models;
 using MangerLayer.Interfaces;
@@ -42,6 +43,19 @@ namespace FundooNoteApp.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpGet]
+        [Route("GellAllNotes")]
+
+        public IActionResult GetNote() {
+            List<NoteEntity> notes = noteManager.GetAllNote();
+
+            if(notes == null)
+            {
+                return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message ="failed to get Notes" });
+            }
+            return Ok(notes);
         }
     }
 }

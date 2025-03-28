@@ -20,5 +20,10 @@ namespace MangerLayer.Services
         {
          return noteRepo.CreateNote(UserId, notesModel);
         }
+
+        public List<NoteEntity> GetAllNote()
+        {
+            return noteRepo.GetAllNote();
+        }
     }
 }
