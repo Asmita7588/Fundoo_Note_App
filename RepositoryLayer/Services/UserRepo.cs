@@ -75,8 +75,6 @@ namespace RepositoryLayer.Services
 
             var checkUser = this.context.Users.FirstOrDefault(q => q.Email == loginModel.Email && q.Password == EncodePasswordToBase6(loginModel.Password));
 
-
-
             if (checkUser != null)
             {
 
@@ -132,5 +130,79 @@ namespace RepositoryLayer.Services
                 return false;
             }
         }
+
+        //GetAllUsers
+
+        public List<UserEntity> GetAllUsers() { 
+
+            List<UserEntity> users = this.context.Users.ToList();
+            
+            return users;
+        }
+
+        //Find a user by ID
+        public UserEntity GetUserById(int UserId) { 
+            UserEntity user = this.context.Users.FirstOrDefault(n=> n.UserId == UserId);
+
+            return user;
+        }
+
+        //Get users whose name starts with 'A'
+
+        public List<UserEntity> GetUserWhoseNameStartWith() {
+
+            List<UserEntity> userStartWith = this.context.Users.Where(n => n.FirstName.StartsWith("A")).ToList();
+            return userStartWith;
+        }
+        //count all users
+        public int CountUser()
+        {
+            int count =  this.context.Users.Count();
+            return count;
+        }
+
+        //Get users ordered by name (ascending & descending)
+
+
+        public List<UserEntity> OrderByAssending()
+        {
+            List<UserEntity> User = context.Users.OrderBy(n => n.FirstName).ToList();
+            return User;
+        }
+
+        public List<UserEntity> OrderByDescending()
+        {
+            List<UserEntity> User = context.Users.OrderByDescending(n => n.FirstName).ToList();
+            return User;
+        }
+
+        //Get the average age of users
+        public double AverageAgeOfUser()
+        {var averageAge = context.Users.Average(n => DateTime.Now.Year - n.DOB.Year);
+            if (averageAge != 0) { 
+
+            
+                return (double)averageAge;
+            }
+            return 0;
+
+        }
+
+        // Get the oldest and youngest user age
+
+        public int YoungestAgeOfUser() =>
+         context.Users.Any()
+        ? context.Users.Min(n => DateTime.Today.Year - n.DOB.Year -
+            (DateTime.Today < n.DOB.AddYears(DateTime.Today.Year - n.DOB.Year) ? 1 : 0))
+        : 0;
+
+        public int OldestAgeOfUser() =>
+         context.Users.Any()
+        ? context.Users.Max(n => DateTime.Today.Year - n.DOB.Year -
+            (DateTime.Today < n.DOB.AddYears(DateTime.Today.Year - n.DOB.Year) ? 1 : 0))
+        : 0;
+
+
+
     }
 }

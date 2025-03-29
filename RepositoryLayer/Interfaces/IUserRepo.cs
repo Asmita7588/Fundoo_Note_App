@@ -14,6 +14,23 @@ namespace RepositoryLayer.Interfaces
         public string LoginUser(LoginModel loginModel);
         public ForgotPasswordModel ForgotPassword(string Email);
         public bool ResetPassword(string Email, ResetPasswordModel resetPasswordModel);
+
+        public List<UserEntity> GetAllUsers();
+
+        public UserEntity GetUserById(int UserId);
+
+        public List<UserEntity> GetUserWhoseNameStartWith();
+
+        public int CountUser();
+
+        public List<UserEntity> OrderByAssending();
+        public List<UserEntity> OrderByDescending();
+
+        public double AverageAgeOfUser();
+
+        public int OldestAgeOfUser();
+
+        public int YoungestAgeOfUser();
     }
 
 

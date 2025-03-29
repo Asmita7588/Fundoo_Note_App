@@ -28,5 +28,10 @@ namespace RepositoryLayer.Entity
 
         [JsonIgnore]
         public virtual UserEntity NotesUser { get; set; }
+
+        public static implicit operator NoteEntity(List<NoteEntity> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

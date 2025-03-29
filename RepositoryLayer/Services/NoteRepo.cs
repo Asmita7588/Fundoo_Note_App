@@ -38,5 +38,39 @@ namespace RepositoryLayer.Services
             return userEntities;
 
         }
+
+        public bool DeleteNote(int NoteId) { 
+
+            var note = context.Notes.Where(n=>n.NoteId == NoteId).FirstOrDefault();
+
+            if (note == null)
+            {
+                return false;
+            }
+            else { 
+               context.Notes.Remove(note);
+                context.SaveChanges();
+                return true;
+            }
+        }
+
+        //Fetch Notes using title and description
+
+        public List<NoteEntity> GetAllNoteUsingTitleAndDisc(string title, string discription)
+        {
+
+            List<NoteEntity> userEntities = context.Notes.Where(n=> n.Title == title && n.Description == discription).ToList();
+            return userEntities;
+
+        }
+
+        //Return Count of notes a user has
+
+        public int CountNotesForAUser(int UserId)
+        {
+            int countNotes = context.Notes.Count(n => n.UserId == UserId);
+            return countNotes;
+        }
+
     }
 }

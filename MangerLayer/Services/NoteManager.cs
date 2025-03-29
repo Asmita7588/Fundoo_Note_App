@@ -25,5 +25,21 @@ namespace MangerLayer.Services
         {
             return noteRepo.GetAllNote();
         }
+
+        public bool DeleteNote(int NoteId)
+        {
+            return noteRepo.DeleteNote( NoteId);
+        }
+
+        public List<NoteEntity> GetAllNoteUsingTitleAndDisc(string title, string discription)
+        {
+            return noteRepo.GetAllNoteUsingTitleAndDisc( title, discription );
+        }
+
+        public int CountNotesForAUser(int UserId)
+        {
+            return noteRepo.CountNotesForAUser( UserId);
+        }
+
     }
 }

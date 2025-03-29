@@ -6,6 +6,7 @@ using MangerLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Entity;
+using RepositoryLayer.Migrations;
 
 namespace FundooNoteApp.Controllers
 {
@@ -56,6 +57,62 @@ namespace FundooNoteApp.Controllers
                 return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message ="failed to get Notes" });
             }
             return Ok(notes);
+        }
+
+        [HttpDelete]
+        [Route("DeleteNote")]
+        public IActionResult DeleteNote(int NoteId) {
+
+            int UserId = int.Parse(User.FindFirst("UserId").Value);
+
+            var IsNotePresent = noteManager.DeleteNote(NoteId);
+            if (IsNotePresent) {
+
+                return Ok(new ResponseModel<bool> { Success = true, Message = "Data deleted successfully" });
+            }
+            return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message = "Data failed to delete" });
+        }
+
+        [HttpGet]
+        [Route("GetNoteByTitleandDisc")]
+
+        public IActionResult GetNotesByTitleAndDis(string Title , string disc)
+        {
+            try
+            {
+                List<NoteEntity> notes = noteManager.GetAllNoteUsingTitleAndDisc(Title, disc);
+
+                if (notes == null)
+                {
+                    return BadRequest(new ResponseModel<NoteEntity> { Success = true, Message = "get notes successfully" });
+                }
+                return Ok(notes);
+            }
+            catch (Exception ex) { 
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        [Route("CountNotesForAUser")]
+        public IActionResult CountNoteForSingleUser()
+        {
+            try
+            {
+                int UserId = int.Parse(User.FindFirst("UserId").Value);
+                int count = noteManager.CountNotesForAUser(UserId);
+                if (count == 0)
+                {
+                    return BadRequest(new ResponseModel<int> { Success = false, Message = "Failse to get notes" });
+                }
+                else
+                {
+                    return Ok(count);
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
     }
 }
