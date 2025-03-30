@@ -114,5 +114,24 @@ namespace FundooNoteApp.Controllers
                 throw ex;
             }
         }
+
+        [HttpPut]
+        [Route("UpdateNote")]
+
+        public IActionResult UpdateNote(int NoteId, UpdateNoteModel model) {
+
+            int UserId = int.Parse(User.FindFirst("UserId").Value);
+           
+            NoteEntity updateNote = noteManager.UpdateNote(NoteId, UserId,model );
+
+            if (updateNote == null) {
+                return BadRequest(new ResponseModel<NoteEntity> { Success = true, Message = "failed to update Note" });
+            }
+            else
+            {
+                return Ok(updateNote);
+            }
+
+        }
     }
 }

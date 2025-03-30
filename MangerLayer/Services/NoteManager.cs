@@ -41,5 +41,10 @@ namespace MangerLayer.Services
             return noteRepo.CountNotesForAUser( UserId);
         }
 
+        public NoteEntity UpdateNote(int NoteId, int UserId, UpdateNoteModel UpdateModel)
+        {
+            return noteRepo.UpdateNote( NoteId, UserId, UpdateModel );
+        }
+
     }
 }

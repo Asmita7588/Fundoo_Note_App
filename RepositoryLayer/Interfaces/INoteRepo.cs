@@ -16,7 +16,10 @@ namespace RepositoryLayer.Interfaces
         public List<NoteEntity> GetAllNoteUsingTitleAndDisc(string title, string discription);
 
         public int CountNotesForAUser(int UserId);
-        
+
+        public NoteEntity UpdateNote(int NoteId, int UserId, UpdateNoteModel UpdateModel);
+
+
 
 
     }

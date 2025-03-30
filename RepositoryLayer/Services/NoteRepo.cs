@@ -54,6 +54,32 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public NoteEntity UpdateNote(int NoteId, int UserId, UpdateNoteModel UpdateModel)
+        {
+            var updateNote = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
+            if (updateNote == null) { 
+                return null;
+            }
+            else
+            {
+                updateNote.NoteId = NoteId;
+                updateNote.Title = UpdateModel.Title;
+                updateNote.Description = UpdateModel.Description;
+                updateNote.Reminder = UpdateModel.Reminder;
+                updateNote.Color = UpdateModel.Color;
+                updateNote.IsArchive = UpdateModel.IsArchive;
+                updateNote.Image = UpdateModel.Image;
+                updateNote.IsPin = UpdateModel.IsPin;
+                updateNote.IsArchive = UpdateModel.IsArchive;
+                updateNote.UpdatedAt = DateTime.Now;
+                updateNote.UserId = UserId;
+                context.SaveChanges();
+
+                return updateNote;
+
+            }
+        }
+
         //Fetch Notes using title and description
 
         public List<NoteEntity> GetAllNoteUsingTitleAndDisc(string title, string discription)
@@ -71,6 +97,8 @@ namespace RepositoryLayer.Services
             int countNotes = context.Notes.Count(n => n.UserId == UserId);
             return countNotes;
         }
+
+        
 
     }
 }
