@@ -16,7 +16,7 @@ namespace RepositoryLayer.Services
 
         public NoteRepo(FundooDBContext context)
         {
-            this.context = context;  
+            this.context = context;
         }
 
         public NoteEntity CreateNote(int UserId, NotesModel notesModel)
@@ -32,23 +32,26 @@ namespace RepositoryLayer.Services
             return noteEntity;
         }
 
-        public List<NoteEntity> GetAllNote() {
+        public List<NoteEntity> GetAllNote()
+        {
 
             List<NoteEntity> userEntities = context.Notes.ToList();
             return userEntities;
 
         }
 
-        public bool DeleteNote(int NoteId) { 
+        public bool DeleteNote(int NoteId)
+        {
 
-            var note = context.Notes.Where(n=>n.NoteId == NoteId).FirstOrDefault();
+            var note = context.Notes.Where(n => n.NoteId == NoteId).FirstOrDefault();
 
             if (note == null)
             {
                 return false;
             }
-            else { 
-               context.Notes.Remove(note);
+            else
+            {
+                context.Notes.Remove(note);
                 context.SaveChanges();
                 return true;
             }
@@ -57,7 +60,8 @@ namespace RepositoryLayer.Services
         public NoteEntity UpdateNote(int NoteId, int UserId, UpdateNoteModel UpdateModel)
         {
             var updateNote = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
-            if (updateNote == null) { 
+            if (updateNote == null)
+            {
                 return null;
             }
             else
@@ -85,7 +89,7 @@ namespace RepositoryLayer.Services
         public List<NoteEntity> GetAllNoteUsingTitleAndDisc(string title, string discription)
         {
 
-            List<NoteEntity> userEntities = context.Notes.Where(n=> n.Title == title && n.Description == discription).ToList();
+            List<NoteEntity> userEntities = context.Notes.Where(n => n.Title == title && n.Description == discription).ToList();
             return userEntities;
 
         }
@@ -98,11 +102,13 @@ namespace RepositoryLayer.Services
             return countNotes;
         }
 
-        public int PinNote(int NoteId, int UserId) { 
+        public int PinNote(int NoteId, int UserId)
+        {
 
-            NoteEntity noteEntity = context.Notes.FirstOrDefault(n=>n.UserId == UserId && n.NoteId == NoteId);
+            NoteEntity noteEntity = context.Notes.FirstOrDefault(n => n.UserId == UserId && n.NoteId == NoteId);
 
-            if (noteEntity != null) {
+            if (noteEntity != null)
+            {
 
                 if (noteEntity.IsPin)
                 {
@@ -124,7 +130,8 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public int ArchiveNote(int NoteId, int UserId) {
+        public int ArchiveNote(int NoteId, int UserId)
+        {
             NoteEntity ArchiveNote = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
 
             if (ArchiveNote != null)
@@ -144,13 +151,15 @@ namespace RepositoryLayer.Services
                     return 2;
                 }
             }
-            else { 
+            else
+            {
                 return 3;
             }
 
         }
 
-        public bool AddColorNote(int NoteId, int UserId, string color) {
+        public bool AddColorNote(int NoteId, int UserId, string color)
+        {
             NoteEntity colorNote = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
 
             if (colorNote != null)
@@ -160,13 +169,58 @@ namespace RepositoryLayer.Services
                 context.SaveChanges();
                 return true;
             }
-            else { 
+            else
+            {
                 return false;
             }
 
         }
 
-        
+        public int TrashNote(int NoteId, int UserId)
+        {
+            NoteEntity noteEntity = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
+
+            if (noteEntity != null)
+            {
+                if (noteEntity.IsTrash)
+                {
+                    noteEntity.IsTrash = false;
+                    context.SaveChanges();
+                    return 1;
+
+                }
+                else
+                {
+                    noteEntity.IsTrash = true;
+                    context.SaveChanges();
+                    return 2;
+
+                }
+            }
+            else
+            {
+                return 3;
+            }
+
+        }
+
+        public bool AddRemainder(int NoteId, int UserId, DateTime Remainder) {
+            NoteEntity noteEntity = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
+
+            if (noteEntity != null) { 
+
+                noteEntity.Reminder = Remainder;
+                context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
     }
+
+    
 }

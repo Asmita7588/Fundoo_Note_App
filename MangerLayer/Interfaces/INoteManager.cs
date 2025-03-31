@@ -23,6 +23,10 @@ namespace MangerLayer.Interfaces
 
         public bool AddColorNote(int NoteId, int UserId, string color);
 
+        public int TrashNote(int NoteId, int UserId);
+
+        public bool AddRemainder(int NoteId, int UserId, DateTime Remainder);
+
 
 
 

@@ -216,5 +216,62 @@ namespace FundooNoteApp.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("TrashNote")]
+
+        public IActionResult TrashNote(int NoteId)
+        {
+            try
+            {
+                int UserId = int.Parse(User.FindFirst("UserId").Value);
+
+                int trashResult = noteManager.TrashNote(NoteId, UserId);
+
+                if (trashResult != 0)
+                {
+
+                    return Ok(new ResponseModel<int> { Success = true, Message = "trashed note successfully" ,Data = trashResult});
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message = "failed to trash" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
+        [HttpPut]
+        [Route("RemainderNote")]
+
+        public IActionResult RemainderNote(int NoteId, DateTime Remainder)
+        {
+            try
+            {
+                int UserId = int.Parse(User.FindFirst("UserId").Value);
+
+                bool addRemainder = noteManager.AddRemainder(NoteId, UserId, Remainder);
+
+                if (addRemainder)
+                {
+
+                    return Ok(new ResponseModel<bool> { Success = true, Message = "remainder added successfully" , Data = addRemainder});
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message = "failed to add reamainder" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

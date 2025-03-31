@@ -59,5 +59,15 @@ namespace MangerLayer.Services
         {
             return noteRepo.AddColorNote( NoteId, UserId, color );
         }
+
+        public int TrashNote(int NoteId, int UserId)
+        {
+            return noteRepo.TrashNote( NoteId, UserId );
+        }
+
+        public bool AddRemainder(int NoteId, int UserId, DateTime Remainder)
+        {
+            return noteRepo.AddRemainder( NoteId, UserId, Remainder );
+        }
     }
 }
