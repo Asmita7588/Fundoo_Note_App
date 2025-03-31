@@ -54,5 +54,10 @@ namespace MangerLayer.Services
         {
             return noteRepo.ArchiveNote( NoteId, UserId );
         }
+
+        public bool AddColorNote(int NoteId, int UserId, string color)
+        {
+            return noteRepo.AddColorNote( NoteId, UserId, color );
+        }
     }
 }

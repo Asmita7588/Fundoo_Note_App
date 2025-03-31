@@ -188,5 +188,33 @@ namespace FundooNoteApp.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("AddColorNote")]
+
+        public IActionResult AddColorNote(int NoteId , string color)
+        {
+            try
+            {
+                int UserId = int.Parse(User.FindFirst("UserId").Value);
+
+                bool addcolor = noteManager.AddColorNote(NoteId, UserId, color);
+
+                if (addcolor)
+                {
+
+                    return Ok(new ResponseModel<bool> { Success = true, Message = "color added successfully" });
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message = "failed to add color" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

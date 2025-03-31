@@ -23,6 +23,8 @@ namespace RepositoryLayer.Interfaces
 
         public int ArchiveNote(int NoteId, int UserId);
 
+        public bool AddColorNote(int NoteId, int UserId, string color);
+
 
 
 

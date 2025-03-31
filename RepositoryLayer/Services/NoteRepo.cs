@@ -150,6 +150,22 @@ namespace RepositoryLayer.Services
 
         }
 
+        public bool AddColorNote(int NoteId, int UserId, string color) {
+            NoteEntity colorNote = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
+
+            if (colorNote != null)
+            {
+
+                colorNote.Color = color;
+                context.SaveChanges();
+                return true;
+            }
+            else { 
+                return false;
+            }
+
+        }
+
         
 
     }
