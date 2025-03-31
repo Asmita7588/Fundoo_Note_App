@@ -19,6 +19,8 @@ namespace RepositoryLayer.Interfaces
 
         public NoteEntity UpdateNote(int NoteId, int UserId, UpdateNoteModel UpdateModel);
 
+        public int PinNote(int NoteId, int UserId);
+
 
 
 

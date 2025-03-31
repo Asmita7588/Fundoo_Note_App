@@ -17,6 +17,8 @@ namespace MangerLayer.Interfaces
         public int CountNotesForAUser(int UserId);
         public NoteEntity UpdateNote(int NoteId, int UserId, UpdateNoteModel UpdateModel);
 
+        public int PinNote(int NoteId, int UserId);
+
 
 
 

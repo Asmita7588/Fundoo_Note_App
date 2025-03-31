@@ -98,6 +98,33 @@ namespace RepositoryLayer.Services
             return countNotes;
         }
 
+        public int PinNote(int NoteId, int UserId) { 
+
+            NoteEntity noteEntity = context.Notes.FirstOrDefault(n=>n.UserId == UserId && n.NoteId == NoteId);
+
+            if (noteEntity != null) {
+
+                if (noteEntity.IsPin)
+                {
+                    noteEntity.IsPin = false;
+                    context.SaveChanges();
+                    return 1;
+                }
+                else
+                {
+                    noteEntity.IsPin = true;
+                    context.SaveChanges();
+                    return 2;
+
+                }
+
+            }
+            else
+            {
+                return 3;
+            }
+        }
+
         
 
     }

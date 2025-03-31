@@ -46,5 +46,10 @@ namespace MangerLayer.Services
             return noteRepo.UpdateNote( NoteId, UserId, UpdateModel );
         }
 
+        public int PinNote(int NoteId, int UserId)
+        {
+            return noteRepo.PinNote( NoteId, UserId );
+        }
+
     }
 }
