@@ -21,6 +21,8 @@ namespace RepositoryLayer.Interfaces
 
         public int PinNote(int NoteId, int UserId);
 
+        public int ArchiveNote(int NoteId, int UserId);
+
 
 
 

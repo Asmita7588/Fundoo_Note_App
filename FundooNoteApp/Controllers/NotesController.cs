@@ -160,5 +160,33 @@ namespace FundooNoteApp.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("ArchiveNote")]
+
+        public IActionResult ArchiveNote(int NoteId)
+        {
+            try
+            {
+                int UserId = int.Parse(User.FindFirst("UserId").Value);
+
+                int archiveResult = noteManager.ArchiveNote(NoteId, UserId);
+
+                if (archiveResult != 0)
+                {
+
+                    return Ok(new ResponseModel<int> { Success = true, Message = "Archive successfully", Data = archiveResult });
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<NoteEntity> { Success = false, Message = "failed to archive" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

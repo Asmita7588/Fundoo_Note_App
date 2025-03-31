@@ -115,7 +115,6 @@ namespace RepositoryLayer.Services
                     noteEntity.IsPin = true;
                     context.SaveChanges();
                     return 2;
-
                 }
 
             }
@@ -123,6 +122,32 @@ namespace RepositoryLayer.Services
             {
                 return 3;
             }
+        }
+
+        public int ArchiveNote(int NoteId, int UserId) {
+            NoteEntity ArchiveNote = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
+
+            if (ArchiveNote != null)
+            {
+
+                if (ArchiveNote.IsArchive && ArchiveNote.IsPin == false)
+                {
+                    ArchiveNote.IsArchive = false;
+                    context.SaveChanges();
+                    return 1;
+                }
+                else
+                {
+                    ArchiveNote.IsArchive = true;
+                    ArchiveNote.IsPin = false;
+                    context.SaveChanges();
+                    return 2;
+                }
+            }
+            else { 
+                return 3;
+            }
+
         }
 
         

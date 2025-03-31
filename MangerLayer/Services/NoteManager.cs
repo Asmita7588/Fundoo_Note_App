@@ -50,6 +50,9 @@ namespace MangerLayer.Services
         {
             return noteRepo.PinNote( NoteId, UserId );
         }
-
+        public int ArchiveNote(int NoteId, int UserId)
+        {
+            return noteRepo.ArchiveNote( NoteId, UserId );
+        }
     }
 }
