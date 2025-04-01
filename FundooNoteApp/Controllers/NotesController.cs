@@ -321,5 +321,50 @@ namespace FundooNoteApp.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        [Route("GetCollaboratores")]
+
+        public IActionResult FetchCollaborators()
+        {
+            try
+            {
+                var result = noteManager.FetchCollaborator();
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<string> { Success = false, Message = "falied to fetch collaboratord" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete Collborator")]
+
+        public IActionResult DeleteCollaborator(int CollboratorId)
+        {
+            try
+            {
+              bool result = noteManager.RemoveCollaborator(CollboratorId);
+                if (result)
+                {
+                    return Ok(new ResponseModel<bool> { Success = true, Message = "collaborator deleted Successfully", Data = result });
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<string> { Success = false, Message = "failed to delete collaborator" });
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
     }
 }

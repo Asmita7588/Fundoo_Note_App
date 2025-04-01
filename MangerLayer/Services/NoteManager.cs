@@ -80,5 +80,14 @@ namespace MangerLayer.Services
         {
             return noteRepo.AddCollaborator( NoteId, UserId, Email );
         }
+
+        public List<CollaboratorEntity> FetchCollaborator()
+        {
+            return noteRepo.FetchCollaborator();
+        }
+        public bool RemoveCollaborator(int CollboratorId)
+        {
+            return noteRepo.RemoveCollaborator( CollboratorId );
+        }
     }
 }

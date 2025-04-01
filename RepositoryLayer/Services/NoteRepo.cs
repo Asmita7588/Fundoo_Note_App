@@ -273,6 +273,29 @@ namespace RepositoryLayer.Services
             else {  return false; }
         }
 
+        public List<CollaboratorEntity> FetchCollaborator() {
+
+            List<CollaboratorEntity> collaborators = context.Collaborators.ToList();
+            return collaborators;
+
+        }
+
+        public bool RemoveCollaborator(int CollboratorId) {
+
+            var CheckCollaboratorId = context.Collaborators.FirstOrDefault(n => n.CollaboratorId == CollboratorId);
+
+            if (CheckCollaboratorId != null)
+            {
+                context.Collaborators.Remove(CheckCollaboratorId);
+                context.SaveChanges();
+                return true;
+            }
+            else { return false; }
+        
+        }
+
+       
+
     }
 
     

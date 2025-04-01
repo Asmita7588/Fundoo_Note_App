@@ -33,6 +33,9 @@ namespace RepositoryLayer.Interfaces
         public bool AddImage(int NoteId, int UserId, IFormFile Image);
         public bool AddCollaborator(int NoteId, int UserId, string Email);
 
+        public List<CollaboratorEntity> FetchCollaborator();
+        public bool RemoveCollaborator(int CollboratorId);
+
 
 
 
