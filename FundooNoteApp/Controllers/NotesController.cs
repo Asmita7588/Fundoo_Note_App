@@ -287,7 +287,7 @@ namespace FundooNoteApp.Controllers
 
                 if (result)
                 {
-                    return Ok(new ResponseModel<bool> { Success = true, Message = " Image uploded Successfully", Data = result });
+                    return Ok(new ResponseModel<bool> { Success = true, Message = "Image uploded Successfully", Data = result });
                 }
                 else
                 {
@@ -298,6 +298,28 @@ namespace FundooNoteApp.Controllers
                 throw ex; 
             }
 
+        }
+
+        [HttpPut]
+        [Route("AddCollaborator")]
+        public IActionResult AddCollaborator(int NoteId,string Email)
+        {
+            try
+            {
+                int UserId = int.Parse (User.FindFirst("UserId").Value);
+               bool result = noteManager.AddCollaborator(NoteId,UserId, Email);
+
+                if (result) {
+                    return Ok(new ResponseModel<bool> { Success = true, Message = "Collaborator added Successfully",Data = result });
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<string> { Success = false, Message = "failed to add collaborator" });
+                }
+            }
+            catch (Exception ex) { 
+                throw ex;
+            }
         }
     }
 }

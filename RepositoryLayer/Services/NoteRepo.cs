@@ -257,6 +257,22 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public bool AddCollaborator( int NoteId,int UserId, string Email)
+        {
+            var collaborator = context.Notes.FirstOrDefault(n => n.NoteId == NoteId && n.UserId == UserId);
+            if (collaborator != null) {
+
+                CollaboratorEntity entity = new CollaboratorEntity();
+                entity.Email = Email;
+                entity.NoteId = NoteId;
+                entity.UserId = UserId;
+                context.Collaborators.Add(entity);
+                context.SaveChanges();
+                return true;
+            }
+            else {  return false; }
+        }
+
     }
 
     

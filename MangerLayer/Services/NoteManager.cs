@@ -75,5 +75,10 @@ namespace MangerLayer.Services
         {
             return noteRepo.AddImage( NoteId, UserId, Image );  
         }
+
+        public bool AddCollaborator(int NoteId, int UserId, string Email)
+        {
+            return noteRepo.AddCollaborator( NoteId, UserId, Email );
+        }
     }
 }

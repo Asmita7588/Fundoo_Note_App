@@ -30,6 +30,8 @@ namespace MangerLayer.Interfaces
 
         public bool AddImage(int NoteId, int UserId, IFormFile Image);
 
+        public bool AddCollaborator(int NoteId, int UserId, string Email);
+
 
 
 

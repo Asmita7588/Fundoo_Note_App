@@ -31,6 +31,7 @@ namespace RepositoryLayer.Interfaces
         public bool AddRemainder(int NoteId, int UserId, DateTime Remainder);
 
         public bool AddImage(int NoteId, int UserId, IFormFile Image);
+        public bool AddCollaborator(int NoteId, int UserId, string Email);
 
 
 
