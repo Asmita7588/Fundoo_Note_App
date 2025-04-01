@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CommonLayer.Models;
 using MangerLayer.Interfaces;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interfaces;
 
@@ -68,6 +69,11 @@ namespace MangerLayer.Services
         public bool AddRemainder(int NoteId, int UserId, DateTime Remainder)
         {
             return noteRepo.AddRemainder( NoteId, UserId, Remainder );
+        }
+
+        public bool AddImage(int NoteId, int UserId, IFormFile Image)
+        {
+            return noteRepo.AddImage( NoteId, UserId, Image );  
         }
     }
 }

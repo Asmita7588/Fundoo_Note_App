@@ -273,5 +273,31 @@ namespace FundooNoteApp.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("AddImage")]
+        public IActionResult AddImage(int NoteId, IFormFile Image)
+        {
+            try
+            {
+
+                int UserId = int.Parse(User.FindFirst("UserId").Value);
+
+                bool result = noteManager.AddImage(NoteId, UserId, Image);
+
+                if (result)
+                {
+                    return Ok(new ResponseModel<bool> { Success = true, Message = " Image uploded Successfully", Data = result });
+                }
+                else
+                {
+                    return BadRequest(new ResponseModel<bool> { Success = false, Message = "Image failed to upload" });
+                }
+            }catch (Exception ex)
+            { 
+                throw ex; 
+            }
+
+        }
     }
 }

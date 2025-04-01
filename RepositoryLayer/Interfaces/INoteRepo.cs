@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 
 namespace RepositoryLayer.Interfaces
@@ -28,6 +29,8 @@ namespace RepositoryLayer.Interfaces
         public int TrashNote(int NoteId, int UserId);
 
         public bool AddRemainder(int NoteId, int UserId, DateTime Remainder);
+
+        public bool AddImage(int NoteId, int UserId, IFormFile Image);
 
 
 

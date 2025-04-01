@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interfaces;
@@ -14,9 +18,12 @@ namespace RepositoryLayer.Services
     {
         private readonly FundooDBContext context;
 
-        public NoteRepo(FundooDBContext context)
+        private readonly IConfiguration configuration;
+
+        public NoteRepo(FundooDBContext context, IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
         }
 
         public NoteEntity CreateNote(int UserId, NotesModel notesModel)
@@ -218,6 +225,36 @@ namespace RepositoryLayer.Services
                 return false;
             }
 
+        }
+
+        public bool AddImage(int NoteId, int UserId, IFormFile Image) { 
+            NoteEntity noteEntity = context.Notes.ToList().Find(n=>n.NoteId == NoteId && n.UserId == UserId);
+
+            if (noteEntity != null) {
+
+                Account account = new Account(
+                  configuration["CloudinarySettings:CloudName"],   
+                  configuration ["CloudinarySettings:ApiKey"],
+                  configuration["CloudinarySettings:ApiSecret"]
+                );
+                Cloudinary cloudinary = new Cloudinary(account);
+
+                var UploadParameter = new ImageUploadParams()
+                {
+                    File = new FileDescription(Image.FileName, Image.OpenReadStream())
+                };
+
+                var uploadResult = cloudinary.Upload(UploadParameter);
+                string ImagePath = uploadResult.Url.ToString();
+                noteEntity.Image = ImagePath;
+                context.SaveChanges();
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }
