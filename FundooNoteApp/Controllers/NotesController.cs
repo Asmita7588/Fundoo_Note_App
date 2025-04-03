@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 using CommonLayer.Models;
+using GreenPipes.Caching;
 using MangerLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Migrations;
 
@@ -15,10 +22,14 @@ namespace FundooNoteApp.Controllers
     public class NotesController : ControllerBase
     {
         private readonly INoteManager noteManager;
+        private readonly IDistributedCache cache;
+        private readonly FundooDBContext context;
 
-        public NotesController(INoteManager noteManager)
+        public NotesController(INoteManager noteManager, IDistributedCache cache, FundooDBContext context)
         {
             this.noteManager = noteManager;
+            this.cache = cache;
+            this.context = context; 
         }
 
         [HttpPost]
@@ -325,11 +336,11 @@ namespace FundooNoteApp.Controllers
         [HttpGet]
         [Route("GetCollaboratores")]
 
-        public IActionResult FetchCollaborators()
+        public IActionResult FetchCollaborators(int NoteId)
         {
             try
             {
-                var result = noteManager.FetchCollaborator();
+                var result = noteManager.FetchCollaborator(NoteId);
                 if (result != null)
                 {
                     return Ok(result);
@@ -346,7 +357,7 @@ namespace FundooNoteApp.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete Collborator")]
+        [Route("DeleteCollborator")]
 
         public IActionResult DeleteCollaborator(int CollboratorId)
         {
@@ -365,6 +376,34 @@ namespace FundooNoteApp.Controllers
             catch (Exception ex) {
                 throw ex;
             }
+        }
+
+        //secondary memory radies cache 
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
+        {
+            
+            string cacheKey = "NotesList";
+            string SerializedNoteList;
+            var NotesList = new List<NoteEntity>();
+            byte[] RedisNotesList = await cache.GetAsync(cacheKey);
+            if (RedisNotesList != null) { 
+                SerializedNoteList = Encoding.UTF8.GetString(RedisNotesList);
+                NotesList =  JsonConvert.DeserializeObject<List<NoteEntity>>(SerializedNoteList);
+            }
+            else
+            {
+
+                NotesList = context.Notes.ToList();
+                SerializedNoteList = JsonConvert.SerializeObject(NotesList);
+                RedisNotesList = Encoding.UTF8.GetBytes(SerializedNoteList);
+                var option = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(20))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+                await cache.SetAsync(cacheKey, RedisNotesList, option);
+            }
+            return Ok(NotesList);
+            
+          
         }
     }
 }
