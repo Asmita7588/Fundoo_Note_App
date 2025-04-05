@@ -7,6 +7,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RepositoryLayer.Entity;
 
 namespace FundooNoteApp.Controllers
@@ -17,16 +18,18 @@ namespace FundooNoteApp.Controllers
     {
         private readonly IUserManager userManager;
         private readonly IBus bus;
+        private readonly ILogger<UsersController> logger;
 
-        public UsersController(IUserManager userManager, IBus bus)
+        public UsersController(IUserManager userManager, IBus bus, ILogger<UsersController> logger)
         {
             this.userManager = userManager;
             this.bus = bus;
+            this.logger = logger;
         }
 
         //httplocal/api/Users/Reg
         [HttpPost]
-        [Route("Reg")]
+        [Route("Register")]
 
         public IActionResult Register(RegisterModel model)
         {
@@ -40,6 +43,7 @@ namespace FundooNoteApp.Controllers
             else
             {
                 var result = userManager.Register(model);
+               // HttpContext.Session.SetInt32("UserId", result.UserId);
                 if (result != null)
                 {
                     return Ok(new ResponseModel<UserEntity> { Success = true, Message = "Register successfully", Data = result });
@@ -135,11 +139,14 @@ namespace FundooNoteApp.Controllers
                 }
                 else
                 {
-                  return BadRequest(new ResponseModel<UserEntity> { Success = false, Message = "failed to get all users"});
+                    
+                    return BadRequest(new ResponseModel<UserEntity> { Success = false, Message = "failed to get all users"});
                 }
+                
             }
             catch (Exception ex)
             {
+               
                 throw ex;
             }
         }
@@ -162,7 +169,9 @@ namespace FundooNoteApp.Controllers
                     return BadRequest(new ResponseModel<UserEntity> { Success = false, Message = "Failed to get user" });
                 }
             }
-            catch (Exception ex) { 
+            catch (Exception ex) {
+                //TO LOG occured exception
+                logger.LogError(ex.ToString());
                 throw ex;
             }
         }

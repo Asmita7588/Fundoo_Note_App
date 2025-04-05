@@ -39,7 +39,7 @@ namespace FundooNoteApp.Controllers
             try
             {
                  int UserId = int.Parse(User.FindFirst("UserId").Value);
-               // var UserId = (int)HttpContext.Session.GetInt32("UserId");
+               //int UserId = (int)HttpContext.Session.GetInt32("UserId");
                 NoteEntity noteEntity = noteManager.CreateNote(UserId, model);
 
 
@@ -379,6 +379,7 @@ namespace FundooNoteApp.Controllers
         }
 
         //secondary memory radies cache 
+        [HttpGet("get-all-notes")]
         public async Task<IActionResult> GetAllNotesUsingRedisCache()
         {
             
